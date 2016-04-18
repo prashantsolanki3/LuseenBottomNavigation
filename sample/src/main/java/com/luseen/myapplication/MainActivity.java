@@ -1,5 +1,6 @@
 package com.luseen.myapplication;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -17,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int[] image = {R.drawable.ic_mic_black_24dp, R.drawable.ic_favorite_black_24dp,
-                R.drawable.ic_book_black_24dp, R.drawable.github_circle};
+        Drawable[] image = {getResources().getDrawable(R.drawable.ic_mic_black_24dp), getResources().getDrawable(R.drawable.ic_favorite_black_24dp),
+                getResources().getDrawable(R.drawable.ic_book_black_24dp), getResources().getDrawable(R.drawable.github_circle)};
         int[] color = {ContextCompat.getColor(this, R.color.firstColor), ContextCompat.getColor(this, R.color.secondColor),
                 ContextCompat.getColor(this, R.color.thirdColor), ContextCompat.getColor(this, R.color.fourthColor)};
         adapter = new SimpleTabAdapter(getSupportFragmentManager());

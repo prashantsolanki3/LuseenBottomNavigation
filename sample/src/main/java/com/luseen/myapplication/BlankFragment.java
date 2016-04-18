@@ -50,6 +50,11 @@ public class BlankFragment extends Fragment {
                         break;
                 }
             }
+
+            @Override
+            public void onNavigationItemReClicked(int index) {
+
+            }
         });
         b.setOnClickListener(new View.OnClickListener() {
             @Override

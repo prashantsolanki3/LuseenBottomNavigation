@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -184,7 +185,7 @@ public class BottomNavigationView extends RelativeLayout {
                 title.setVisibility(GONE);
             title.setTextColor(itemInactiveColor);
             viewList.add(view);
-            icon.setImageResource(bottomNavigationItems.get(i).getImageResource());
+            icon.setImageDrawable(bottomNavigationItems.get(i).getImageResource());
             icon.setColorFilter(i == currentItem ? itemActiveColorWithoutColoredBackground : itemInactiveColor);
             if (i == currentItem) {
                 container.setBackgroundColor(bottomNavigationItems.get(index).getColor());
@@ -213,12 +214,14 @@ public class BottomNavigationView extends RelativeLayout {
                 }
             });
         }
-
+        //Initial Tab
+        selectTab(currentItem);
     }
 
     private void onBottomNavigationItemClick(final int itemIndex) {
 
         if (currentItem == itemIndex) {
+            onBottomNavigationItemClickListener.onNavigationItemReClicked(itemIndex);
             return;
         }
 
@@ -302,13 +305,13 @@ public class BottomNavigationView extends RelativeLayout {
      * @param imageResources images resources for every item in the ViewPager adapter
      */
 
-    public void setUpWithViewPager(ViewPager pager, int[] colorResources, int[] imageResources) {
+    public void setUpWithViewPager(ViewPager pager, int[] colorResources, Drawable[] imageResources) {
         this.mViewPager = pager;
         if (pager.getAdapter().getCount() != colorResources.length || pager.getAdapter().getCount() != imageResources.length)
             throw new IllegalArgumentException("colorResources and imageResources must be equal to the ViewPager items : " + pager.getAdapter().getCount());
 
         for (int i = 0; i < pager.getAdapter().getCount(); i++)
-            addTab(new BottomNavigationItem(pager.getAdapter().getPageTitle(i).toString(), colorResources[i], imageResources[i]));
+            addTab(new BottomNavigationItem(pager.getAdapter().getPageTitle(i).toString(), colorResources[i], imageResources[i],context));
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -335,6 +338,15 @@ public class BottomNavigationView extends RelativeLayout {
      */
     public void addTab(BottomNavigationItem item) {
         bottomNavigationItems.add(item);
+    }
+
+    public void addTabs(List<BottomNavigationItem> item) {
+        bottomNavigationItems.addAll(item);
+    }
+
+    public void setTabs(List<BottomNavigationItem> items){
+        bottomNavigationItems.clear();
+        bottomNavigationItems = items;
     }
 
     /**
@@ -428,4 +440,5 @@ public class BottomNavigationView extends RelativeLayout {
     public int getCurrentItem() {
         return currentItem;
     }
+
 }
